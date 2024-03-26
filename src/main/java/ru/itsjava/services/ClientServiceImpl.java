@@ -14,7 +14,8 @@ public class ClientServiceImpl implements ClientService {
     public void start() {
         Socket socket = new Socket( HOST, PORT );
         if (socket.isConnected()) {
-            new Thread( new SocketRunnable( socket ) ).start();
+            Thread tread = new Thread( new SocketRunnable( socket ) );
+            tread.start();
 
             PrintWriter serverWriter = new PrintWriter( socket.getOutputStream() );
             MessageInputService messageInputService =
@@ -32,11 +33,16 @@ public class ClientServiceImpl implements ClientService {
             while (true) {
 //                System.out.println( "Введите сообщение" );
                 String consoleMessage = messageInputService.getMessage();
-                serverWriter.println( consoleMessage );
-                serverWriter.flush();
+                if (consoleMessage.equals( "Exit" )) {
+                    break;
+                } else {
+                    serverWriter.println( consoleMessage );
+                    serverWriter.flush();
+                }
             }
-
         }
 
     }
+
+
 }

@@ -6,10 +6,10 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class MessageInputServiceImpl implements MessageInputService{
+public class MessageInputServiceImpl implements MessageInputService {
     private final BufferedReader bufferedReader;
 
-    public MessageInputServiceImpl(InputStream inputStream){
+    public MessageInputServiceImpl(InputStream inputStream) {
         bufferedReader = new BufferedReader( new InputStreamReader( inputStream ) );
     }
 
