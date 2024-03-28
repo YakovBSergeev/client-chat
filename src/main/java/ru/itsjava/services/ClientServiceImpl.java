@@ -20,20 +20,27 @@ public class ClientServiceImpl implements ClientService {
             PrintWriter serverWriter = new PrintWriter( socket.getOutputStream() );
             MessageInputService messageInputService =
                     new MessageInputServiceImpl( System.in );
+            Menu menu = new MenuImpl();
+            String youChoice = menu.menu();
+            if (!youChoice.equals( "0" )) {
 
-            System.out.println( "Введите свой логин:" );
-            String login = messageInputService.getMessage();
+                System.out.println( "Введите свой логин:" );
+                String login = messageInputService.getMessage();
 
-            System.out.println( "Введите свой пароль:" );
-            String password = messageInputService.getMessage();
+                System.out.println( "Введите свой пароль:" );
+                String password = messageInputService.getMessage();
 
-            serverWriter.println( "!autho!" + login + ":" + password );
-            serverWriter.flush();
+                serverWriter.println( youChoice + "!autho!" + login + ":" + password );
+                serverWriter.flush();
+            } else {
+                System.out.println( "До встречи!" );
+            }
 
             while (true) {
 //                System.out.println( "Введите сообщение" );
                 String consoleMessage = messageInputService.getMessage();
                 if (consoleMessage.equals( "Exit" )) {
+                    socket.close();
                     break;
                 } else {
                     serverWriter.println( consoleMessage );
