@@ -1,13 +1,15 @@
 package ru.itsjava.services;
 
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 
-import java.io.PrintWriter;
 import java.net.Socket;
 
+@AllArgsConstructor
 public class ClientServiceImpl implements ClientService {
-    public final static int PORT = 8081;
-    public final static String HOST = "localhost";
+    private final static int PORT = 8081;
+    private final static String HOST = "localhost";
+
 
     @SneakyThrows
     @Override
@@ -17,39 +19,19 @@ public class ClientServiceImpl implements ClientService {
             Thread tread = new Thread( new SocketRunnable( socket ) );
             tread.start();
 
-            PrintWriter serverWriter = new PrintWriter( socket.getOutputStream() );
-            MessageInputService messageInputService =
-                    new MessageInputServiceImpl( System.in );
-            Menu menu = new MenuImpl();
-            String youChoice = menu.menu();
-            if (!youChoice.equals( "0" )) {
+//            MessageInputService messageInputService = new MessageInputServiceImpl( socket.getInputStream() );
+//            while (true) {
+//                messageInputService.getMessage();
+//
+//            }
 
-                System.out.println( "Введите свой логин:" );
-                String login = messageInputService.getMessage();
-
-                System.out.println( "Введите свой пароль:" );
-                String password = messageInputService.getMessage();
-
-                serverWriter.println( youChoice + "!autho!" + login + ":" + password );
-                serverWriter.flush();
-            } else {
-                System.out.println( "До встречи!" );
-            }
-
-            while (true) {
-//                System.out.println( "Введите сообщение" );
-                String consoleMessage = messageInputService.getMessage();
-                if (consoleMessage.equals( "Exit" )) {
-                    socket.close();
-                    break;
-                } else {
-                    serverWriter.println( consoleMessage );
-                    serverWriter.flush();
-                }
-            }
         }
-
     }
 
 
 }
+
+
+
+
+
