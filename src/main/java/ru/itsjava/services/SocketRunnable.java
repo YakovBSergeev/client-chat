@@ -13,7 +13,9 @@ public class SocketRunnable implements Runnable {
     private final Socket socket;
 
 
-
+    /**
+     * Принимаем сообщения с сервера после авторизации
+     */
     @SneakyThrows
     @Override
     public void run() {

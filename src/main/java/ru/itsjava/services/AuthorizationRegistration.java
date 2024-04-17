@@ -9,9 +9,13 @@ import java.net.Socket;
 @RequiredArgsConstructor
 public class AuthorizationRegistration {
 
-    private static final Logger log = Logger.getLogger(AuthorizationRegistration.class);
+    private static final Logger log = Logger.getLogger( AuthorizationRegistration.class );
     private final Socket socket;
 
+    /**
+     * Обрабатывает сообщения с сервера в процессе подключения к чату.
+     * @return
+     */
     @SneakyThrows
     public boolean authorizationRegistration() {
         Menu menu = new MenuImpl();
@@ -29,7 +33,9 @@ public class AuthorizationRegistration {
         String serverMessage = serverEye.serverReader();
         log.info( serverMessage );
         System.out.println( serverMessage );
-        if (serverMessage.contains( "Такой пользователь не зарегистрирован. Авторизуйтесь повторно." ) || serverMessage.contains( "Такой пользователь уже зарегистрирован. Измените данные регистрации." )) {
+        if (serverMessage.contains( "Такой пользователь не зарегистрирован. Авторизуйтесь повторно." ) ||
+                serverMessage.contains( "Такой пользователь уже зарегистрирован. Измените данные регистрации." ) ||
+                serverMessage.contains( "Такой пользователь уже подключен." )) {
             authorizationRegistration();
         }
         return true;
